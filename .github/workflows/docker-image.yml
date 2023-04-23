@@ -23,7 +23,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: debug print
-        run: echo${{ secrets.DOCKERHUB_USERNAME }}/tda_dynamo_web_app:${GITHUB_REF_NAME}
+        run: echo ${{ secrets.DOCKERHUB_USERNAME }}/tda_dynamo_web_app:${GITHUB_REF_NAME}
 
       -
         name: Build and push
