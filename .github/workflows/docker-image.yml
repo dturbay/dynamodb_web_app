@@ -22,12 +22,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: debug print
-        run: echo ${{ secrets.DOCKERHUB_USERNAME }}/tda_dynamo_web_app:${GITHUB_REF_NAME}
-
+      -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/tda_dynamo_web_app
+          
       -
         name: Build and push
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tda_dynamo_web_app:${GITHUB_REF_NAME}
+          tags: ${{ steps.meta.outputs.tags }}
