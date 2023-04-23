@@ -28,7 +28,9 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ secrets.DOCKERHUB_USERNAME }}/tda_dynamo_web_app
-          
+          tags: |
+            type=semver,pattern={{version}}
+
       -
         name: Build and push
         uses: docker/build-push-action@v4
