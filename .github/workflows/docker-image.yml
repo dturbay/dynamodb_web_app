@@ -30,6 +30,10 @@ jobs:
           images: ${{ secrets.DOCKERHUB_USERNAME }}/tda_dynamo_web_app
           tags: |
             type=semver,pattern={{version}}
+          flavor: |
+            latest=false
+            prefix=
+            suffix=
 
       -
         name: Build and push
