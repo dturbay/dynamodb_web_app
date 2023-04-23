@@ -23,10 +23,11 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: debug print
-        run: echo "tda123123/tda_dynamo_web_app:$GITHUB_REF_NAME"          
+        run: echo${{ secrets.DOCKERHUB_USERNAME }}/tda_dynamo_web_app:${GITHUB_REF_NAME}
+
       -
         name: Build and push
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tda_dynamo_web_app:"$GITHUB_REF_NAME"
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tda_dynamo_web_app:${GITHUB_REF_NAME}
