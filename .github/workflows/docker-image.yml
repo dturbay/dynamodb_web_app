@@ -29,4 +29,4 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: tda123123/tda_dynamo_web_app:"$GITHUB_REF_NAME"
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tda_dynamo_web_app:"$GITHUB_REF_NAME"
