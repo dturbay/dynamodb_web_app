@@ -26,7 +26,7 @@ export class SetupECSFargateClusterStack extends cdk.Stack {
 
     const ecsFargateService = new ecsp.ApplicationLoadBalancedFargateService(this, 'webapp', {
       taskImageOptions: {
-        image: ecs.ContainerImage.fromRegistry('registry.hub.docker.com/tda123123/tda_dynamo_web_app:0.0.2'),
+        image: ecs.ContainerImage.fromRegistry('registry.hub.docker.com/tda123123/tda_dynamo_web_app:0.0.3'),
         containerPort: 8080,
       },
       publicLoadBalancer: true,
