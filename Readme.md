@@ -1,6 +1,5 @@
 
-# Refs:
-- Original source code [link](https://github.com/awsdocs/aws-doc-sdk-examples/tree/main/javav2/usecases/creating_dynamodb_web_app)
+Original source code [link](https://github.com/awsdocs/aws-doc-sdk-examples/tree/main/javav2/usecases/creating_dynamodb_web_app)
 
 ### Useful commands/links
 - API design https://cloud.google.com/apis/design
