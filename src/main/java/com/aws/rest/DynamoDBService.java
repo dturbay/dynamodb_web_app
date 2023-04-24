@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
@@ -31,6 +33,7 @@ Before running this code example, create an Amazon DynamoDB table named Work wit
 */
 @Component
 public class DynamoDBService {
+  private static final Logger logger = LoggerFactory.getLogger(DynamoDBService.class);
 
   private DynamoDbClient getClient() {
     Region region = APP_REGION;
@@ -65,10 +68,9 @@ public class DynamoDBService {
       return itemList;
 
     } catch (DynamoDbException e) {
-      System.err.println(e.getMessage());
-      System.exit(1);
+      logger.error("getAllItems failed", e);
+      throw e;
     }
-    return null;
   }
 
   // Archives an item based on the key.
@@ -89,8 +91,8 @@ public class DynamoDBService {
       workTable.updateItem(r -> r.item(work));
 
     } catch (DynamoDbException e) {
-      System.err.println(e.getMessage());
-      System.exit(1);
+      logger.error("archiveItemEC failed", e);
+      throw e;
     }
   }
 
@@ -142,10 +144,9 @@ public class DynamoDBService {
       return itemList;
 
     } catch (DynamoDbException e) {
-      System.err.println(e.getMessage());
-      System.exit(1);
+      logger.error("getOpenItems failed", e);
+      throw e;
     }
-    return null;
   }
 
   // Get Closed Items from the DynamoDB table.
@@ -196,10 +197,9 @@ public class DynamoDBService {
       return itemList;
 
     } catch (DynamoDbException e) {
-      System.err.println(e.getMessage());
-      System.exit(1);
+      logger.error("getClosedItems failed", e);
+      throw e;
     }
-    return null;
   }
 
   public void setItem(WorkItem item) {
@@ -227,8 +227,8 @@ public class DynamoDBService {
       workTable.putItem(record);
 
     } catch (DynamoDbException e) {
-      System.err.println(e.getMessage());
-      System.exit(1);
+      logger.error("putRecord failed", e);
+      throw e;
     }
   }
 
