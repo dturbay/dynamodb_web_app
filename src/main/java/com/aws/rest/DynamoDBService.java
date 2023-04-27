@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
@@ -34,16 +35,13 @@ Before running this code example, create an Amazon DynamoDB table named Work wit
 @Component
 public class DynamoDBService {
   private static final Logger logger = LoggerFactory.getLogger(DynamoDBService.class);
-
-  private DynamoDbClient getClient() {
-    Region region = APP_REGION;
-    return DynamoDbClient.builder().region(region).build();
-  }
+  @Autowired
+  private DynamoDbClient dynamoDbClient;
 
   // Get All items from the DynamoDB table.
   public List<WorkItem> getAllItems() {
     DynamoDbEnhancedClient enhancedClient =
-        DynamoDbEnhancedClient.builder().dynamoDbClient(getClient()).build();
+        DynamoDbEnhancedClient.builder().dynamoDbClient(dynamoDbClient).build();
 
     try {
       DynamoDbTable<Work> table = enhancedClient.table("Work", TableSchema.fromBean(Work.class));
@@ -77,7 +75,7 @@ public class DynamoDBService {
   public void archiveItemEC(String id) {
     try {
       DynamoDbEnhancedClient enhancedClient =
-          DynamoDbEnhancedClient.builder().dynamoDbClient(getClient()).build();
+          DynamoDbEnhancedClient.builder().dynamoDbClient(dynamoDbClient).build();
 
       DynamoDbTable<Work> workTable =
           enhancedClient.table("Work", TableSchema.fromBean(Work.class));
@@ -99,7 +97,7 @@ public class DynamoDBService {
   // Get Open items from the DynamoDB table.
   public List<WorkItem> getOpenItems() {
     DynamoDbEnhancedClient enhancedClient =
-        DynamoDbEnhancedClient.builder().dynamoDbClient(getClient()).build();
+        DynamoDbEnhancedClient.builder().dynamoDbClient(dynamoDbClient).build();
 
     try {
       DynamoDbTable<Work> table = enhancedClient.table("Work", TableSchema.fromBean(Work.class));
@@ -152,7 +150,7 @@ public class DynamoDBService {
   // Get Closed Items from the DynamoDB table.
   public List<WorkItem> getClosedItems() {
     DynamoDbEnhancedClient enhancedClient =
-        DynamoDbEnhancedClient.builder().dynamoDbClient(getClient()).build();
+        DynamoDbEnhancedClient.builder().dynamoDbClient(dynamoDbClient).build();
 
     try {
       // Create a DynamoDbTable object.
@@ -204,7 +202,7 @@ public class DynamoDBService {
 
   public void setItem(WorkItem item) {
     DynamoDbEnhancedClient enhancedClient =
-        DynamoDbEnhancedClient.builder().dynamoDbClient(getClient()).build();
+        DynamoDbEnhancedClient.builder().dynamoDbClient(dynamoDbClient).build();
 
     putRecord(enhancedClient, item);
   }

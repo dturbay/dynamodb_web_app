@@ -1,17 +1,16 @@
 {
-  "log.level": {
+  "level": {
     "$resolver": "level",
     "field": "name"
   },
   "message": {
-    "$resolver": "message",
-    "stringified": true
+    "$resolver": "message"
   },
-  "thread.name": {
+  "thread": {
     "$resolver": "thread",
     "field": "name"
   },
-  "log.logger": {
+  "logger": {
     "$resolver": "logger",
     "field": "name"
   },
