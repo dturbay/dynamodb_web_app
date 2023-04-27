@@ -28,7 +28,7 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClientBuilder;
 @SpringBootApplication
 public class App {
 
-  @Value(value = "${spring.dynamodb.port:-1}")
+  @Value(value = "${spring.dynamodb.test.port:-1}")
   private Integer dynamoDbTestPort;
 
   @Bean

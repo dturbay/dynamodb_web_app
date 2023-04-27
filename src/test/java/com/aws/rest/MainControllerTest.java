@@ -34,7 +34,7 @@ import software.amazon.awssdk.services.dynamodb.waiters.DynamoDbWaiter;
 class MainControllerTest {
 
   @Value(value = "${local.server.port}")
-  private int port;
+  private int appPort;
 
   @Autowired
   private TestRestTemplate restTemplate;
@@ -45,7 +45,7 @@ class MainControllerTest {
 
   @DynamicPropertySource
   static void redisProperties(DynamicPropertyRegistry registry) {
-    registry.add("spring.dynamodb.port", dynamodbContainer::getFirstMappedPort);
+    registry.add("spring.dynamodb.test.port", dynamodbContainer::getFirstMappedPort);
   }
 
   @BeforeAll
@@ -88,7 +88,7 @@ class MainControllerTest {
 
   @Test
   void addItem() {
-    assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/api/items",
+    assertThat(this.restTemplate.getForObject("http://localhost:" + appPort + "/api/items",
         String.class)).contains("[]");
   }
 }
