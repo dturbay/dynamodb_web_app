@@ -14,6 +14,9 @@ Added:
 - [AWS CDK blueprints](https://docs.aws.amazon.com/solutions/latest/constructs/aws-fargate-dynamodb.html)
 
 ### Commands
+- Run app locally
+  - local mode (text log format) `mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Dspring.profiles.active=local"`
+  - prod mode (json log) `mvn spring-boot:run`
 - docker build -t tda_dynamo_web_app ./
 - curl -X POST -H "Content-Type: application/json" -d '{"name": "dennis", "guide": "Dynamodb basics", "description": "Create sample dynamo db app", "status": "IN_PROGRESS"}' http://localhost:8080/api/items
 - curl -X POST -H "Content-Type: application/json" -d '{"name": "dennis", "guide": "Kubernetes basics", "description": "Create sample kubernetes app", "status": "IN_PROGRESS"}' http://localhost:8080/api/items
