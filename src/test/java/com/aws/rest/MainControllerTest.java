@@ -36,8 +36,7 @@ class MainControllerTest {
   @Value(value = "${local.server.port}")
   private int appPort;
 
-  @Autowired
-  private TestRestTemplate restTemplate;
+  @Autowired private TestRestTemplate restTemplate;
 
   @Container
   public static GenericContainer dynamodbContainer =
@@ -52,33 +51,33 @@ class MainControllerTest {
   static void setUp() {
     int mappedPort = dynamodbContainer.getMappedPort(8000);
     final String tableName = "Work";
-    DynamoDbClient ddb = DynamoDbClient.builder()
-        .endpointOverride(URI.create(String.format("http://localhost:%d", mappedPort)))
-        // The region is meaningless for local DynamoDb but required for client builder validation
-        .region(APP_REGION)
-        .build();
+    DynamoDbClient ddb =
+        DynamoDbClient.builder()
+            .endpointOverride(URI.create(String.format("http://localhost:%d", mappedPort)))
+            // The region is meaningless for local DynamoDb but required for client builder
+            // validation
+            .region(APP_REGION)
+            .build();
 
     DynamoDbWaiter dbWaiter = ddb.waiter();
-    CreateTableRequest request = CreateTableRequest.builder()
-        .attributeDefinitions(AttributeDefinition.builder()
-            .attributeName("id")
-            .attributeType(ScalarAttributeType.S)
-            .build())
-        .keySchema(KeySchemaElement.builder()
-            .attributeName("id")
-            .keyType(KeyType.HASH)
-            .build())
-        .provisionedThroughput(ProvisionedThroughput.builder()
-            .readCapacityUnits(10L)
-            .writeCapacityUnits(10L)
-            .build())
-        .tableName(tableName)
-        .build();
+    CreateTableRequest request =
+        CreateTableRequest.builder()
+            .attributeDefinitions(
+                AttributeDefinition.builder()
+                    .attributeName("id")
+                    .attributeType(ScalarAttributeType.S)
+                    .build())
+            .keySchema(KeySchemaElement.builder().attributeName("id").keyType(KeyType.HASH).build())
+            .provisionedThroughput(
+                ProvisionedThroughput.builder()
+                    .readCapacityUnits(10L)
+                    .writeCapacityUnits(10L)
+                    .build())
+            .tableName(tableName)
+            .build();
 
     CreateTableResponse response = ddb.createTable(request);
-    DescribeTableRequest tableRequest = DescribeTableRequest.builder()
-        .tableName(tableName)
-        .build();
+    DescribeTableRequest tableRequest = DescribeTableRequest.builder().tableName(tableName).build();
 
     // Wait until the Amazon DynamoDB table is created
     WaiterResponse<DescribeTableResponse> waiterResponse =
@@ -88,7 +87,9 @@ class MainControllerTest {
 
   @Test
   void addItem() {
-    assertThat(this.restTemplate.getForObject("http://localhost:" + appPort + "/api/items",
-        String.class)).contains("[]");
+    assertThat(
+            this.restTemplate.getForObject(
+                "http://localhost:" + appPort + "/api/items", String.class))
+        .contains("[]");
   }
 }

@@ -11,10 +11,7 @@ package com.aws;
 import static com.aws.AppProperties.APP_REGION;
 
 import java.net.URI;
-import java.util.Map;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.message.ObjectMessage;
-import org.apache.logging.log4j.message.StringMapMessage;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +22,7 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClientBuilder;
 
+@Slf4j
 @SpringBootApplication
 public class App {
 
@@ -34,9 +32,10 @@ public class App {
   @Bean
   public DynamoDbClient getClient() {
     Region region = APP_REGION;
-      DynamoDbClientBuilder builder = DynamoDbClient.builder().region(region);
+    DynamoDbClientBuilder builder = DynamoDbClient.builder().region(region);
     if (this.dynamoDbTestPort != -1) {
-      builder.endpointOverride(URI.create(String.format("http://localhost:%d", this.dynamoDbTestPort)));
+      builder.endpointOverride(
+          URI.create(String.format("http://localhost:%d", this.dynamoDbTestPort)));
     }
     return builder.build();
   }
@@ -52,13 +51,13 @@ public class App {
     //        logger.error("exception", new RuntimeException("smth. went wrong"), kv("status",
     //     "REJECTED"));
 
-//    var logger = LogManager.getLogger(App.class);
-//    logger.info("Plain text log message");
-//    logger.info(
-//        new StringMapMessage().with("message", "Hello World!").with("foo", "bar"),
-//        new RuntimeException("Smth. happened"));
-//
-//    logger.info(new ObjectMessage(Map.of("key1", "val1", "key2", "val2")));
+    //    var logger = LogManager.getLogger(App.class);
+    //    logger.info("Plain text log message");
+    //    logger.info(
+    //        new StringMapMessage().with("message", "Hello World!").with("foo", "bar"),
+    //        new RuntimeException("Smth. happened"));
+    //
+    //    logger.info(new ObjectMessage(Map.of("key1", "val1", "key2", "val2")));
 
     SpringApplication.run(App.class, args);
   }

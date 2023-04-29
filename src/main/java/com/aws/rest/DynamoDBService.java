@@ -5,8 +5,6 @@
 
 package com.aws.rest;
 
-import static com.aws.AppProperties.APP_REGION;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,8 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
@@ -24,7 +21,6 @@ import software.amazon.awssdk.enhanced.dynamodb.Expression;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 import software.amazon.awssdk.enhanced.dynamodb.model.ScanEnhancedRequest;
-import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
@@ -32,11 +28,10 @@ import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 /*
 Before running this code example, create an Amazon DynamoDB table named Work with a primary key named id.
 */
+@Slf4j
 @Component
 public class DynamoDBService {
-  private static final Logger logger = LoggerFactory.getLogger(DynamoDBService.class);
-  @Autowired
-  private DynamoDbClient dynamoDbClient;
+  @Autowired private DynamoDbClient dynamoDbClient;
 
   // Get All items from the DynamoDB table.
   public List<WorkItem> getAllItems() {
@@ -66,7 +61,7 @@ public class DynamoDBService {
       return itemList;
 
     } catch (DynamoDbException e) {
-      logger.error("getAllItems failed", e);
+      log.error("getAllItems failed", e);
       throw e;
     }
   }
@@ -89,7 +84,7 @@ public class DynamoDBService {
       workTable.updateItem(r -> r.item(work));
 
     } catch (DynamoDbException e) {
-      logger.error("archiveItemEC failed", e);
+      log.error("archiveItemEC failed", e);
       throw e;
     }
   }
@@ -142,7 +137,7 @@ public class DynamoDBService {
       return itemList;
 
     } catch (DynamoDbException e) {
-      logger.error("getOpenItems failed", e);
+      log.error("getOpenItems failed", e);
       throw e;
     }
   }
@@ -195,7 +190,7 @@ public class DynamoDBService {
       return itemList;
 
     } catch (DynamoDbException e) {
-      logger.error("getClosedItems failed", e);
+      log.error("getClosedItems failed", e);
       throw e;
     }
   }
@@ -225,7 +220,7 @@ public class DynamoDBService {
       workTable.putItem(record);
 
     } catch (DynamoDbException e) {
-      logger.error("putRecord failed", e);
+      log.error("putRecord failed", e);
       throw e;
     }
   }
